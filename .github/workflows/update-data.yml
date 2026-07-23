@@ -1,0 +1,40 @@
+name: Update registration data
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # hourly at :17 (off-peak minute; GitHub delays :00 jobs)
+  workflow_dispatch: {}     # manual "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Regenerate data.js from the registration sheets
+        run: python scripts/update_data.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "idea-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data.js data/
+          if git diff --cached --quiet; then
+            echo "No new registrations."
+          else
+            git commit -m "Auto-update registration data"
+            git push
+          fi
