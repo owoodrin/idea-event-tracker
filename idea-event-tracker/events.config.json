@@ -1,0 +1,10 @@
+[
+  {
+    "id": "launch-webinar-2026-07",
+    "name": "IDEA Launch Webinar",
+    "eventDate": "2026-07-30",
+    "note": "Registration opened 22 Jul 2026",
+    "csv_url": "https://docs.google.com/spreadsheets/d/1oI2GvtjfFncJVlb_1GwhoFsVQldXUzoVHL70R7OjgjY/export?format=csv&gid=0",
+    "timestamp_column": "Registration Time"
+  }
+]
